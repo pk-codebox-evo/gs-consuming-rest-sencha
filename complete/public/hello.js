@@ -1,45 +1,19 @@
-Ext.define('Greeting', {
-    extend: 'Ext.data.Model',
-    config: {
-        fields: [ 'id', 'content' ]
-    }
-});
-
-Ext.define('HelloView', {
-    extend: 'Ext.Panel',
-    config: {
-        fullscreen: true,
-        tpl: '<p>The ID is {id}</p><p>The content is {content}</p>'
-    }
-});
-
-Ext.define('HelloStore', {
-    extend: 'Ext.data.Store',
-    config: {
-        model: 'Greeting',
-        proxy: {
-            type: 'rest',
-            url: 'http://rest-service.guides.spring.io/greeting'
-        }
-    },
-    constructor: function (config) {
-        var name = document.location.search.slice(1);
-        this.config.proxy.url = this.config.proxy.url
-            + '?name=' + name;
-        this.callParent(arguments);
-    }
-});
+Ext.Loader.setConfig({ disableCaching: false });
 
 Ext.application({
+    name: 'Hello',
+    models: [ 'GreetingModel' ],
+    stores: [ 'GreetingStore' ],
+    views: [ 'GreetingView' ],
     launch: function () {
 
-        var panel = Ext.create('HelloView', {});
+        var view = Ext.create('Hello.view.GreetingView', {});
 
-        Ext.create('HelloStore', {
+        Ext.create('Hello.store.GreetingStore', {
             autoLoad: true,
             listeners: {
                 load: function (self, records) {
-                    panel.setData(records[0].getData());
+                    view.setData(records[0].getData());
                 }
             }
         });
