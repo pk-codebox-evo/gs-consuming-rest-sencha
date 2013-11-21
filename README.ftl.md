@@ -1,3 +1,4 @@
+<#assign project_id="gs-consuming-rest-restjs">
 This guide walks you through the process of consuming a simple Sencha Touch
 client that consumes a Spring MVC-based [RESTful web service][u-rest].
 
@@ -45,16 +46,7 @@ Create an Ext model
 First, create an Ext model.  Following Sencha's convention's, place this
 model in the `app/model` directory.
 
-`public/app/model/GreetingModel.js`
-```js
-Ext.define('Hello.model.GreetingModel', {
-    extend: 'Ext.data.Model',
-    config: {
-        fields: [ 'id', 'content' ]
-    }
-});
-
-```
+<@snippet path="public/app/model/GreetingModel.js" prefix="complete"/>
 
 All Ext models extend `Ext.data.Model`.  This model defines two fields:
 'id' and 'content'.
@@ -66,16 +58,7 @@ Create a view
 Sencha's `Ext.Panel` works great as the base for a simple view,
 which should also be placed in Sencha's conventional location:
 
-`public/app/view/GreetingView.js`
-```js
-Ext.define('Hello.view.GreetingView', {
-    extend: 'Ext.Panel',
-    config: {
-        fullscreen: true,
-        tpl: '<p>The ID is {id}</p><p>The content is {content}</p>'
-    }
-});
-```
+<@snippet path="public/app/view/GreetingView.js" prefix="complete"/>
 
 The contents of the view are defined by the template described in
 the `tpl` config option.  The tokens delineated by the curly braces
@@ -88,26 +71,7 @@ Create an Ext store
 
 Next, create an Ext store that will load the `GreetingModel` model.
 
-`public/app/store/GreetingStore.js`
-```js
-Ext.define('Hello.store.GreetingStore', {
-    extend: 'Ext.data.Store',
-    config: {
-        model: 'Hello.model.GreetingModel',
-        proxy: {
-            type: 'rest',
-            url: 'http://rest-service.guides.spring.io/greeting'
-        },
-        listeners: {
-            beforeload: function () {
-                var name = document.location.search.slice(1);
-                this.getProxy().setExtraParam('name', name);
-            }
-        }
-    }
-});
-
-```
+<@snippet path="public/app/store/GreetingStore.js" prefix="complete"/>
 
 The store extends `Ext.data.Store` and references our `GreetingModel` model
 in the config options. To instruct the store to use the REST proxy,
@@ -124,31 +88,7 @@ Create an Ext application
 Next, create an `Ext.app.Application` object using Sencha's `Ext.application`
 convenience function:
 
-`public/hello.js`
-```js
-Ext.Loader.setConfig({ disableCaching: false });
-
-Ext.application({
-    name: 'Hello',
-    models: [ 'GreetingModel' ],
-    stores: [ 'GreetingStore' ],
-    views: [ 'GreetingView' ],
-    launch: function () {
-
-        var view = Ext.create('Hello.view.GreetingView', {});
-
-        Ext.create('Hello.store.GreetingStore', {
-            autoLoad: true,
-            listeners: {
-                load: function (self, records) {
-                    view.setData(records[0].getData());
-                }
-            }
-        });
-
-    }
-});
-```
+<@snippet path="public/hello.js" prefix="complete"/>
 
 The application object automatically resolves the location of the models,
 views, and stores if you follow the directory conventions and give the
@@ -170,19 +110,7 @@ Create the application page
 
 Finally, create an `index.html` file and add the following HTML:
 
-`public/index.html`
-```html
-<!doctype html>
-<html>
-    <head>
-        <title>Hello Sencha</title>
-        <script src="//cdn.sencha.io/touch/sencha-touch-2.1.1/sencha-touch-all.js"></script>
-        <script src="hello.js"></script>
-    </head>
-    <body>
-    </body>
-</html>
-```
+<@snippet path="public/index.html" prefix="complete"/>
 
 The first `script` element loads Sencha Touch off Sencha's CDN.  The second
 script loads the application object.
@@ -213,8 +141,7 @@ Spring-based RESTful web service.
 
 [gs-rest-service]: /guides/gs/rest-service/
 [gs-spring-boot]: /guides/gs/spring-boot/
-[zip]: https://github.com/spring-guides/gs-consuming-rest-restjs/archive/master.zip
-[u-rest]: /understanding/REST
-[u-json]: /understanding/JSON
-[u-git]: /understanding/Git
->>>>>>> Add markdown.
+[zip]: https://github.com/spring-guides/${project_id}/archive/master.zip
+<@u_rest/>
+<@u_json/>
+<@u_git/>
