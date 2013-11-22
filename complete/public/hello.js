@@ -1,5 +1,3 @@
-Ext.Loader.setConfig({ disableCaching: false });
-
 Ext.application({
     name: 'Hello',
     models: [ 'GreetingModel' ],
@@ -20,3 +18,5 @@ Ext.application({
 
     }
 });
+
+Ext.Loader.setConfig({ disableCaching: false });
